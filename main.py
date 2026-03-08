@@ -14,6 +14,7 @@ logging.basicConfig(
     level=config.log_level, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
+# Initialize FastMCP server
 mcp = FastMCP(
     name="shell-executor", host=config.host_addr, port=config.host_port, debug=True
 )
