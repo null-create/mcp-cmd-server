@@ -1,8 +1,9 @@
 services:
-  websearch-mcp-server:
+  mcp-cmdexec-server:
     build:
       context: .
       dockerfile: Dockerfile
     restart: unless-stopped
+    env_file: .env
     ports:
-      - "9393:9393"
+      - "9595:9595"
