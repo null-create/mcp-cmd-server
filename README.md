@@ -80,7 +80,7 @@ Example response:
 
 1. Build and start the container:
    ```bash
-   make dev-compose
+   make run
    ```
 
    Or manually:
@@ -90,7 +90,7 @@ Example response:
 
 2. Stop the container:
    ```bash
-   make dev-down
+   make stop
    ```
 
    Or manually:
@@ -121,4 +121,4 @@ This server is designed with security in mind:
 
 ## License
 
-[Specify your license here, e.g., MIT]
+MIT
