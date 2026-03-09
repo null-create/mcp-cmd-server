@@ -1,3 +1,4 @@
+import argparse
 import logging
 
 from mcp.server.fastmcp import FastMCP
@@ -53,7 +54,27 @@ def run_command_tool(command: str, timeout: int = 30) -> dict:
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="MCP Command Execution Server")
+    parser.add_argument(
+        "--host",
+        type=str,
+        default=config.host_addr,
+        help="Host address to bind the server",
+    )
+    parser.add_argument(
+        "--port", type=int, default=config.host_port, help="Port to bind the server"
+    )
+    parser.add_argument(
+        "--mode", type=str, default="streamable-http", help="MCP transport mode"
+    )
+    args = parser.parse_args()
+    if args.mode not in ["stdio", "sse", "streamable-http"]:
+        logger.error(
+            "Invalid mode '%s'. Use 'stdio' 'sse' or 'streamable-http'.", args.mode
+        )
+        exit(1)
+
     try:
-        mcp.run(transport="streamable-http")
+        mcp.run(transport=args.mode)
     except KeyboardInterrupt as e:
         logger.info("Shutting down server.")
