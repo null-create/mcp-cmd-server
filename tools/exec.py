@@ -57,7 +57,7 @@ def run_command(command: CommandRequest) -> CommandResponse:
     logger.info("Executing command: '%s'", command.command)
     try:
         result = subprocess.run(
-            command,
+            command.command,
             shell=True,
             capture_output=True,
             text=True,
@@ -70,14 +70,16 @@ def run_command(command: CommandRequest) -> CommandResponse:
         logger.info("Command output: %s", json.dumps(response.model_dump()), indent=2)
         return response
     except subprocess.TimeoutExpired:
-        logger.error("Command '%s' timed out after %d seconds.", command, timeout)
+        logger.error(
+            "Command '%s' timed out after %d seconds.", command.command, command.timeout
+        )
         return CommandResponse(
             stdout="",
             stderr=f"Command timed out after {command.timeout} seconds.",
             returncode=-1,
         )
     except Exception as e:
-        logger.error("Error executing command '%s': %s", command, str(e))
+        logger.error("Error executing command '%s': %s", command.command, str(e))
         return CommandResponse(
             stdout="", stderr=f"Error executing command: {str(e)}", returncode=-1
         )
