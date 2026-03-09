@@ -9,6 +9,7 @@ A Model Context Protocol (MCP) server that provides safe shell command execution
 - **Logging**: Comprehensive logging for monitoring and debugging.
 - **Docker Support**: Easy deployment using Docker and Docker Compose.
 - **FastMCP Integration**: Built on the FastMCP framework for MCP compliance.
+- **Multiple Transport Modes**: Supports stdio, SSE, and streamable-http modes.
 
 ## Installation
 
@@ -22,7 +23,7 @@ A Model Context Protocol (MCP) server that provides safe shell command execution
 1. Clone the repository:
    ```bash
    git clone <repository-url>
-   cd mcp-cmdexec-server
+   cd mcp-cmd-server
    ```
 
 2. Create a virtual environment and install dependencies:
@@ -39,11 +40,12 @@ A Model Context Protocol (MCP) server that provides safe shell command execution
 
 ## Configuration
 
-The server can be configured using environment variables:
+The server can be configured using environment variables or a `.env` file:
 
+- `MODE`: MCP transport mode (default: "streamable-http", options: "stdio", "sse", "streamable-http")
 - `HOST_ADDR`: Host address to bind to (default: "0.0.0.0")
 - `HOST_PORT`: Port to listen on (default: 9595)
-- `LOG_LEVEL`: Logging level (default: 10, DEBUG)
+- `LOG_LEVEL`: Logging level as integer (default: 10, DEBUG)
 
 ## Usage
 
@@ -53,10 +55,16 @@ Activate the virtual environment and run the server:
 
 ```bash
 source venv/bin/activate
-python main.py
+python main.py --mode streamable-http
 ```
 
 The server will start on the configured host and port.
+
+### Transport Modes
+
+- `stdio`: Standard input/output mode for local MCP clients
+- `sse`: Server-Sent Events mode for web-based clients
+- `streamable-http`: HTTP streaming mode (default)
 
 ### Using the Tool
 
@@ -98,7 +106,7 @@ Example response:
    docker-compose down
    ```
 
-The server will be available on port 9393.
+The server will be available on port 9595.
 
 ## Allowed Commands
 
@@ -108,7 +116,12 @@ The server only executes commands whose base (first token) is in the allowlist. 
 - Text processing: `grep`, `awk`, `sed`, `sort`, `uniq`, `cut`, `tr`, `diff`
 - System information: `echo`, `date`, `uptime`, `whoami`, `uname`, `ps`, `env`, `which`, `lsof`
 
-To modify the allowlist, edit `commands.py`.
+To modify the allowlist, edit `tools/cmd.py`.
+
+## Dependencies
+
+- `mcp>=1.0.0`
+- `pydantic~=2.12.5`
 
 ## Security
 
