@@ -58,11 +58,14 @@ if __name__ == "__main__":
     parser.add_argument(
         "--host",
         type=str,
-        default=config.host_addr,
+        default=config.host_addr or "0.0.0.0",
         help="Host address to bind the server",
     )
     parser.add_argument(
-        "--port", type=int, default=config.host_port, help="Port to bind the server"
+        "--port",
+        type=int,
+        default=config.host_port or 9595,
+        help="Port to bind the server",
     )
     parser.add_argument(
         "--mode", type=str, default="streamable-http", help="MCP transport mode"
