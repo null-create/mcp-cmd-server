@@ -2,7 +2,7 @@ import json
 import logging
 import subprocess
 
-from .cmd import ALLOWED_COMMANDS
+from .allow import ALLOWED_COMMANDS
 from .models import CommandRequest, CommandResponse
 
 
